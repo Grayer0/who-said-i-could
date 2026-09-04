@@ -386,15 +386,15 @@ h2{font-size:24px;font-weight:700;letter-spacing:.01em;margin:0 0 8px}
 
 /* ---- 二维码 / 使用 ---- */
 .getit{display:grid;grid-template-columns:220px 1fr;gap:40px;align-items:start}
+.qr-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
 .qr{
   width:220px;height:220px;border-radius:16px;
-  border:2px dashed var(--edge);background:var(--stage-2);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:10px;text-align:center;padding:20px;
+  border:1px solid var(--edge);background:#fff;
+  display:flex;align-items:center;justify-content:center;padding:12px;
+  box-shadow:0 12px 28px -18px rgba(58,48,36,.55);
 }
-.qr img{width:100%;height:100%;object-fit:contain;border-radius:12px}
-.qr-mark{font-size:34px;opacity:.4}
-.qr-note{font-size:12.5px;color:var(--ink-3);line-height:1.6}
+.qr img{width:100%;height:100%;object-fit:contain;image-rendering:auto}
+.qr-cap{margin:0;font-size:12.5px;color:var(--ink-3);letter-spacing:.04em}
 .steps{counter-reset:s;display:grid;gap:18px;margin:0;padding:0;list-style:none}
 .steps li{position:relative;padding-left:34px;font-size:15px;color:var(--ink-2);line-height:1.7}
 .steps li::before{
@@ -800,14 +800,15 @@ footer a:hover{color:var(--accent);border-bottom-color:var(--accent)}
   <hr class="rule">
 
   <h2><span class="zh">怎么用</span><span class="en">How it works</span></h2>
-  <p class="sub"><span class="zh">扫码打开，或者自己部署一份——它跑在微信云开发上，不需要服务器。</span><span class="en">Scan to open, or run your own copy — it sits on WeChat Cloud, so there is no server to keep alive.</span></p>
+  <p class="sub"><span class="zh">微信扫一扫就能打开，不用下载，也不用注册。</span><span class="en">Scan with WeChat to open. Nothing to download, no account to create.</span></p>
 
   <div class="getit">
-    <div class="qr">
-      <!-- 拿到小程序码之后，把这段整块换成：
-           <img src="assets/qrcode.png" alt="小程序码"> -->
-      <span class="qr-mark">🧾</span>
-      <span class="qr-note"><span class="zh">小程序码<br>即将放在这里</span><span class="en">Mini Program QR<br>coming soon</span></span>
+    <div class="qr-wrap">
+      <div class="qr">
+        <img src="assets/qrcode.png" width="258" height="258"
+             alt="谁允许我买的？小程序码 / Who Said I Could — WeChat Mini Program QR code">
+      </div>
+      <p class="qr-cap"><span class="zh">微信扫一扫打开</span><span class="en">Scan with WeChat</span></p>
     </div>
 
     <ol class="steps">
