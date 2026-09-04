@@ -105,10 +105,11 @@ h1{
   padding:8px 4px 40px;
   scroll-snap-type:x proximity;
 
-  /* 横向滚动的内容会被容器边缘直角切断，看着很硬。
-     两侧盖一层渐变遮罩化开；滚到头的那一侧把遮罩收掉，
-     否则第一屏永远糊着一层，像没加载完。 */
-  --fade-l:64px; --fade-r:64px;
+  /* 横向滚动的内容会被容器边缘直角切断，看着很硬，所以两侧盖渐变遮罩。
+     遮罩宽度由 JS 按「离边缘多远」连续给出，而不是开 / 关两档——
+     开关式的话，scrollLeft 只要离开 0（惯性、回弹都会），
+     整块 64px 会一下子弹出来。没有 JS 时就是下面这组默认值。 */
+  --fade-l:0px; --fade-r:64px;
   -webkit-mask-image:linear-gradient(to right,
     transparent 0, #000 var(--fade-l),
     #000 calc(100% - var(--fade-r)), transparent 100%);
@@ -116,8 +117,6 @@ h1{
     transparent 0, #000 var(--fade-l),
     #000 calc(100% - var(--fade-r)), transparent 100%);
 }
-.sheet.at-start{--fade-l:0px}
-.sheet.at-end{--fade-r:0px}
 .shot{flex:0 0 auto;scroll-snap-align:start;width:293px}
 .scaler{width:293px;height:586px;position:relative}
 .cap{margin-top:22px}
@@ -829,16 +828,32 @@ footer a:hover{color:var(--accent);border-bottom-color:var(--accent)}
 </div>
 
 <script>
-  // 滚到最左 / 最右时收掉那一侧的遮罩
+  // 两侧遮罩按离边缘的距离连续变化，贴到边就是 0，不会跳变
   var sheet = document.querySelector('.sheet')
-  function edges () {
-    var max = sheet.scrollWidth - sheet.clientWidth
-    sheet.classList.toggle('at-start', sheet.scrollLeft <= 1)
-    sheet.classList.toggle('at-end', sheet.scrollLeft >= max - 1)
+  if (sheet) {
+    var MAX_FADE = 64
+    var queued = false
+    var apply = function () {
+      queued = false
+      var max = sheet.scrollWidth - sheet.clientWidth
+      var l = 0
+      var r = 0
+      if (max > 0) {
+        l = Math.max(0, Math.min(MAX_FADE, sheet.scrollLeft))
+        r = Math.max(0, Math.min(MAX_FADE, max - sheet.scrollLeft))
+      }
+      sheet.style.setProperty('--fade-l', l + 'px')
+      sheet.style.setProperty('--fade-r', r + 'px')
+    }
+    var onScroll = function () {
+      if (queued) return
+      queued = true
+      requestAnimationFrame(apply)
+    }
+    sheet.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    apply()
   }
-  sheet.addEventListener('scroll', edges, { passive: true })
-  window.addEventListener('resize', edges)
-  edges()
 
   var bar = document.querySelector('.langbar')
   function paint () {
