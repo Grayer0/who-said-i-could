@@ -23,18 +23,6 @@ or "think it over".
 | 逐一表态 · Vote | 批准 / 驳回 / 再想想，每条意见底下都能讨论 |
 | 多数决 · Decide | 票数变了结果跟着变，平票计为「再想想」 |
 
-跑在微信云开发上，没有服务器要维护。无广告、无第三方统计，
-所有申请记录只保存在使用者自己的账号下。
+无广告、无第三方统计，所有申请记录只保存在使用者自己的账号下。
 
-Runs on WeChat Cloud — no server to keep alive. No ads, no third-party analytics,
-and every record stays in the owner's own account.
-
----
-
-### 关于这个仓库 · About this repo
-
-这里只放介绍页（`index.html`），小程序源码没有公开。
-This repo hosts the intro page only; the Mini Program source is not published here.
-
-页面是纯静态的，没有构建步骤——`index.html` 加一张 OG 图，就这些。
-The page is plain static HTML: one file plus an OG image, no build step.
+No ads, no third-party analytics — every record stays in the owner's own account.
